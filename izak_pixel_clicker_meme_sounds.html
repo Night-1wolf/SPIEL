@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111326">
+<title>IZAK — Pixel Clicker</title>
+<style>
+:root{--bg:#101222;--panel:#1b1e38;--panel2:#242849;--ink:#f4f1ff;--muted:#a7add0;--pink:#ff70bd;--cyan:#6cecff;--gold:#ffd66e;--green:#8cffb2;--line:#41466f}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:radial-gradient(ellipse at 50% -15%,#39305d 0,#17182d 48%,#0d1020 100%);font-family:ui-monospace,Consolas,monospace;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;color:var(--ink);border:2px solid var(--line);background:#292e50;padding:11px 14px;box-shadow:0 4px 0 #0b0d19;transition:transform .08s,filter .15s}button:hover{filter:brightness(1.2)}button:active{transform:translateY(3px);box-shadow:0 1px 0 #0b0d19}button:disabled{opacity:.42;cursor:not-allowed}
+.wrap{max-width:1100px;margin:auto;padding:22px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.logo{font-size:clamp(26px,5vw,42px);font-weight:1000;letter-spacing:3px;color:var(--pink);text-shadow:3px 3px 0 #7c397b,6px 6px 0 #242849}.tag{color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:20px}.panel{background:linear-gradient(180deg,#202440,#171a30);border:2px solid var(--line);box-shadow:0 7px 0 #080a15;padding:18px}.panel h2{margin:0 0 14px;font-size:16px;color:var(--cyan);letter-spacing:1px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#11152a;border:1px solid #343a60;padding:10px;text-align:center}.stat small{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}.stat strong{font-size:clamp(15px,3vw,22px);color:var(--gold)}
+.playarea{text-align:center;margin-top:16px;background:linear-gradient(180deg,#25294b,#171a31);border:1px solid #454b78;padding:20px 12px;position:relative;overflow:hidden}.playarea:before{content:"✦       ·        ✧        ·       ✦";position:absolute;top:10px;left:0;right:0;color:#6d729e;letter-spacing:14px;pointer-events:none}.mascot{display:block;margin:22px auto 14px;width:150px;height:150px;image-rendering:pixelated;filter:drop-shadow(0 8px 0 #0b0d19);cursor:pointer;user-select:none;transition:transform .08s}.mascot:active{transform:scale(.93)}.tap{color:var(--muted);font-size:11px}.primary{background:#a93d83;border-color:#ff8bce;color:white;font-weight:bold;font-size:14px;padding:13px 20px;margin-top:12px}.bar{height:10px;background:#0d1020;border:1px solid #42486e;margin-top:13px}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));width:0%}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tabs button.active{border-color:var(--cyan);color:var(--cyan)}.shoplist{display:grid;gap:9px}.item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px;background:#11152a;border:1px solid #343a60}.item b{display:block;font-size:12px}.item small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.price{color:var(--gold);font-size:12px;white-space:nowrap}.item button{padding:8px 10px;font-size:11px}
+input{width:100%;background:#0f1327;border:1px solid #454b78;color:var(--ink);padding:11px;outline:none}input:focus{border-color:var(--cyan)}.row{display:flex;gap:8px}.row>*{min-width:0}.note{font-size:11px;line-height:1.6;color:var(--muted)}.rankrow{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:10px;border-bottom:1px solid #343a60;font-size:12px}.rankrow:first-child{color:var(--gold)}.ranknum{color:var(--cyan)}.you{color:var(--green);font-size:10px}.status{font-size:11px;color:var(--muted);margin:9px 0}.pill{display:inline-block;padding:4px 7px;background:#123b45;color:var(--cyan);font-size:10px}.soundgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.soundgrid button{min-height:54px;font-size:11px;font-weight:bold;border-color:#67508b;background:linear-gradient(180deg,#39305e,#24213f)}.soundgrid button:active{filter:brightness(1.35)}@media(max-width:520px){.soundgrid{grid-template-columns:repeat(2,1fr)}}
+.footer{text-align:center;color:#747b9f;font-size:10px;padding:24px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.wrap{padding:13px}.panel{padding:14px}.stats{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div><div class="logo">IZAK</div><div class="tag">PIXEL CLICKER · BUILD 2.0</div></div><div><span class="pill">SAVE AUTO</span> <button id="soundBtn">♫ Sound: AUS</button></div></header>
+<div class="grid">
+<main>
+<section class="panel">
+<h2>▸ DEIN PIXEL-UNIVERSUM</h2>
+<div class="stats">
+<div class="stat"><small>PIXEL</small><strong id="coins">0</strong></div>
+<div class="stat"><small>PRO SEKUNDE</small><strong id="pps">0</strong></div>
+<div class="stat"><small>PRO KLICK</small><strong id="power">1</strong></div>
+</div>
+<div class="playarea">
+<svg id="mascot" class="mascot" viewBox="0 0 16 16" role="button" aria-label="Izak anklicken" tabindex="0" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+<rect x="3" y="2" width="10" height="2" fill="#7d55ce"/><rect x="2" y="4" width="12" height="8" fill="#a875ff"/><rect x="4" y="1" width="8" height="2" fill="#d6a8ff"/><rect x="1" y="6" width="2" height="5" fill="#7d55ce"/><rect x="13" y="6" width="2" height="5" fill="#7d55ce"/><rect x="4" y="5" width="2" height="2" fill="#fff"/><rect x="10" y="5" width="2" height="2" fill="#fff"/><rect x="5" y="6" width="1" height="1" fill="#17203f"/><rect x="10" y="6" width="1" height="1" fill="#17203f"/><rect x="6" y="9" width="4" height="1" fill="#5d286f"/><rect x="4" y="12" width="3" height="2" fill="#ff70bd"/><rect x="9" y="12" width="3" height="2" fill="#ff70bd"/><rect x="6" y="3" width="4" height="1" fill="#ffe58a"/>
+</svg>
+<div class="tap">KLICKE IZAK, UM PIXEL ZU SAMMELN</div>
+<button class="primary" id="clickBtn">✦ PIXEL SAMMELN ✦</button>
+<div class="bar"><span id="progress"></span></div><div class="note" id="nextHint">Noch 100 Pixel bis zum nächsten Level</div>
+</div>
+</section>
+
+<section class="panel" style="margin-top:16px">
+<h2>▸ MEME-SOUND-BOARD</h2>
+<p class="note">Drück auf einen Sound für einen kurzen, selbst erzeugten Funny-Effekt. Die Sounds sind original synthetisiert und benötigen keine externen Audiodateien.</p>
+<div class="soundgrid" id="soundboard">
+<button data-sound="bruh">💀 BRUH</button>
+<button data-sound="vine">🍇 VINE BOOM</button>
+<button data-sound="bonk">🔨 BONK</button>
+<button data-sound="wow">😮 WOW</button>
+<button data-sound="laugh">😂 LACHFLASH</button>
+<button data-sound="fail">❌ FAIL</button>
+<button data-sound="victory">🏆 EPIC WIN</button>
+<button data-sound="squeak">🐭 QUIETSCH</button>
+</div>
+<div class="status" id="soundStatus" aria-live="polite">Soundboard bereit – wähle einen Effekt.</div>
+</section>
+
+<section class="panel" style="margin-top:16px">
+<h2>▸ WELTRANGLISTE <span class="pill">GLOBAL</span></h2>
+<div class="row"><input id="playerName" maxlength="16" placeholder="Spielname (keinen echten Namen verwenden)"><button id="submitScore">Score senden</button></div>
+<div class="status" id="rankStatus">Offline-Rangliste auf diesem Gerät. Für eine echte weltweite Rangliste muss ein Firebase-Projekt verbunden werden.</div>
+<div id="leaderboard"><div class="rankrow"><span class="ranknum">—</span><span>Noch keine lokalen Einträge</span><span>—</span></div></div>
+<p class="note">Online-Rangliste: Die Verbindung wird aktiv, sobald du unten deine Firebase-Konfiguration einträgst. Ohne Server kann ein Browser keine gemeinsame Weltrangliste mit anderen Spielern führen.</p>
+</section>
+</main>
+<aside>
+<section class="panel">
+<h2>▸ PIXEL-WERKSTATT</h2>
+<div class="tabs"><button class="active" data-tab="upgrades">Upgrades</button><button data-tab="helpers">Helfer</button></div>
+<div id="shop" class="shoplist"></div>
+</section>
+<section class="panel" style="margin-top:16px">
+<h2>▸ DEIN PROFIL</h2>
+<div class="item"><div><b>Level</b><small id="levelText">Pixel-Neuling</small></div><strong id="level">1</strong></div>
+<div class="item"><div><b>Gesamt gesammelt</b><small>Seit deinem ersten Klick</small></div><strong id="total">0</strong></div>
+<div class="item"><div><b>Erfolge</b><small id="achievement">Erster Klick wartet auf dich</small></div><strong id="achCount">0/5</strong></div>
+<button id="reset" style="width:100%;margin-top:12px">Spielstand zurücksetzen</button>
+<p class="note">Dein Spielstand wird nur lokal in diesem Browser gespeichert.</p>
+</section>
+<section class="panel" style="margin-top:16px">
+<h2>▸ ONLINE-RANGLISTE EINRICHTEN</h2>
+<p class="note">Für echte weltweite Scores: Erstelle ein Firebase-Projekt, aktiviere Anonymous Authentication und Cloud Firestore. Trage deine Web-App-Konfiguration in den Code im Abschnitt <b>FIREBASE CONFIG</b> ein. Lege die Collection <b>scores</b> an und erlaube nur passende Score-Schreib-/Lesezugriffe. Veröffentliche niemals private Server-Schlüssel. Verwende für öffentliche Ranglisten einen Nickname statt persönlicher Daten.</p>
+</section>
+</aside>
+</div>
+<div class="footer">IZAK PIXEL CLICKER · GEMACHT ZUM SPIELEN · DEIN FORTSCHRITT BLEIBT DEINER</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.floor(n).toLocaleString('de-DE');
+const defaults={coins:0,total:0,clicks:0,clickPower:1,items:{cursor:0,bot:0,drone:0,core:0},sound:false};
+let s={...defaults,...JSON.parse(localStorage.getItem('izakSave')||'{}')};
+s.items={...defaults.items,...(s.items||{})};
+let tab='upgrades';
+const catalog={
+ upgrades:[['cursor','Glitzer-Finger','+1 Pixel pro Klick',25,1,'click'],['glove','Pixel-Handschuh','+5 Pixel pro Klick',150,5,'click'],['crystal','Neon-Kristall','+25 Pixel pro Klick',900,25,'click']],
+ helpers:[['bot','Mini-Bot','+1 Pixel pro Sekunde',60,1,'auto'],['drone','Sternen-Drohne','+8 Pixel pro Sekunde',450,8,'auto'],['core','Pixel-Reaktor','+40 Pixel pro Sekunde',2500,40,'auto']]
+};
+const owned={cursor:0,glove:0,crystal:0,bot:0,drone:0,core:0};
+Object.keys(owned).forEach(k=>owned[k]=s.items[k]||0);
+function price(k){let base={cursor:25,glove:150,crystal:900,bot:60,drone:450,core:2500}[k];return Math.floor(base*Math.pow(1.17,owned[k]));}
+function pps(){return owned.bot+owned.drone*8+owned.core*40}
+function power(){return 1+owned.cursor+owned.glove*5+owned.crystal*25}
+function save(){s.items=owned;localStorage.setItem('izakSave',JSON.stringify(s))}
+function renderShop(){let list=catalog[tab];$('shop').innerHTML=list.map(([k,n,d])=>`<div class="item"><div><b>${n} <span class="pill">x${owned[k]}</span></b><small>${d}</small><small class="price">Kosten: ${fmt(price(k))} Pixel</small></div><button data-buy="${k}" ${s.coins<price(k)?'disabled':''}>KAUFEN</button></div>`).join('')}
+function renderRanks(){let rows=JSON.parse(localStorage.getItem('izakRanks')||'[]');if(!rows.length){$('leaderboard').innerHTML='<div class="rankrow"><span class="ranknum">—</span><span>Noch keine lokalen Einträge</span><span>—</span></div>';return} $('leaderboard').innerHTML=rows.slice(0,10).map((r,i)=>`<div class="rankrow"><span class="ranknum">#${i+1}</span><span>${escapeHtml(r.name)} ${r.mine?'<span class="you">DU</span>':''}</span><b>${fmt(r.score)}</b></div>`).join('')}
+function escapeHtml(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){ $('coins').textContent=fmt(s.coins);$('pps').textContent=fmt(pps());$('power').textContent=fmt(power());$('total').textContent=fmt(s.total);$('level').textContent=1+Math.floor(s.total/1000);$('levelText').textContent=['Pixel-Neuling','Pixel-Sammler','Neon-Profi','Izak-Legende'][Math.min(3,Math.floor(s.total/2500))];let achievements=[s.clicks>=1,s.total>=100,s.total>=1000,pps()>=10,s.total>=10000];$('achCount').textContent=achievements.filter(Boolean).length+'/5';$('achievement').textContent=achievements.filter(Boolean).length===5?'Alle Erfolge geschafft!':'Nächster Erfolg wartet';let prog=s.total%1000;$('progress').style.width=(prog/10)+'%';$('nextHint').textContent=`Noch ${1000-prog} Pixel bis zum nächsten Level`;renderShop();save()}
+function add(n){s.coins+=n;s.total+=n;render()}
+function click(){s.clicks++;add(power());if(s.sound){try{let a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=620;g.gain.value=.025;o.start();o.stop(a.currentTime+.055);o.onended=()=>a.close()}catch(e){}}}
+$('clickBtn').onclick=click;$('mascot').onclick=click;$('mascot').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();click()}};
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));renderShop()});
+$('shop').onclick=e=>{let k=e.target.dataset.buy;if(!k)return;let cost=price(k);if(s.coins<cost)return;s.coins-=cost;owned[k]++;render()};
+$('soundBtn').onclick=()=>{s.sound=!s.sound;$('soundBtn').textContent='♫ Sound: '+(s.sound?'AN':'AUS');save()};
+$('reset').onclick=()=>{if(confirm('Wirklich den ganzen Spielstand löschen?')){localStorage.removeItem('izakSave');location.reload()}};
+$('submitScore').onclick=()=>{let name=$('playerName').value.trim().slice(0,16)||'Pixel-Spieler';let rows=JSON.parse(localStorage.getItem('izakRanks')||'[]');rows=rows.filter(r=>r.name!==name);rows.push({name,score:s.total,mine:true});rows.sort((a,b)=>b.score-a.score);localStorage.setItem('izakRanks',JSON.stringify(rows.slice(0,10)));$('rankStatus').textContent='Score lokal gespeichert. Für weltweite Einträge Firebase verbinden.';renderRanks()};
+
+const soundNames={bruh:'BRUH-Effekt',vine:'Vine-Boom-Style',bonk:'Bonk!',wow:'Wow!',laugh:'Lachflash',fail:'Fail-Signal',victory:'Epic Win',squeak:'Quietsch'};
+function playMemeSound(kind){
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC){$('soundStatus').textContent='Audio wird von diesem Browser nicht unterstützt.';return}
+  const ctx=new AC(), now=ctx.currentTime;
+  const master=ctx.createGain();master.gain.value=.16;master.connect(ctx.destination);
+  function tone(freq,dur,type='sine',vol=1,slide=0){
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type=type;o.frequency.setValueAtTime(freq,now);
+    if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,freq+slide),now+dur);
+    g.gain.setValueAtTime(.001,now);g.gain.exponentialRampToValueAtTime(Math.max(.002,vol),now+.012);
+    g.gain.exponentialRampToValueAtTime(.001,now+dur);
+    o.connect(g);g.connect(master);o.start(now);o.stop(now+dur+.02);
+  }
+  if(kind==='bruh'){tone(115,.42,'triangle',.9,-55);tone(82,.5,'sine',.55,-25)}
+  if(kind==='vine'){tone(95,.32,'sawtooth',.8,-60);tone(48,.42,'sine',.9,-18)}
+  if(kind==='bonk'){tone(420,.08,'square',.55,-280);tone(110,.22,'triangle',.8,-65)}
+  if(kind==='wow'){tone(420,.18,'sine',.45,260);setTimeout(()=>tone(690,.28,'sine',.5,-120),130)}
+  if(kind==='laugh'){[0,130,260,390].forEach((t,i)=>setTimeout(()=>tone(i%2?470:390,.11,'square',.28,80),t))}
+  if(kind==='fail'){tone(440,.16,'square',.45,-100);setTimeout(()=>tone(330,.2,'square',.45,-90),150);setTimeout(()=>tone(220,.34,'triangle',.55,-100),340)}
+  if(kind==='victory'){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.42,0),i*115))}
+  if(kind==='squeak'){tone(900,.1,'sine',.35,650);setTimeout(()=>tone(1150,.13,'sine',.35,-600),110)}
+  $('soundStatus').textContent='▶ '+soundNames[kind]+' wird abgespielt';
+  setTimeout(()=>ctx.close(),1200);
+}
+$('soundboard').onclick=e=>{const b=e.target.closest('[data-sound]');if(b)playMemeSound(b.dataset.sound)};
+
+setInterval(()=>{if(pps()>0)add(pps())},1000);
+render();renderRanks();$('soundBtn').textContent='♫ Sound: '+(s.sound?'AN':'AUS');
+</script>
+<!-- FIREBASE CONFIG: Für globale Rangliste Firebase Web-App konfigurieren und anschließend Auth + Firestore-Code ergänzen. -->
+</body></html>
